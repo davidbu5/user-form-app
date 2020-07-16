@@ -5,7 +5,7 @@ export interface IStringsRepo {
             address: string;
             contactability: string;
         },
-        fieldsPlaceholdersBySections: {
+        placeholdersBySections: {
             personal: {
                 firstName: string;
                 lastName: string;

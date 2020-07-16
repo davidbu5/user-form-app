@@ -7,7 +7,7 @@ export const EnglishStringsRepo: IStringsRepo = {
             address: "Address",
             contactability: "Contactability"
         },
-        fieldsPlaceholdersBySections: {
+        placeholdersBySections: {
             personal: {
                 firstName: "First Name",
                 lastName: "Last Name",

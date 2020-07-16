@@ -2,7 +2,7 @@ import { IStringsRepo } from "./interfaces/IStringsRepo";
 import { EnglishStringsRepo } from "./stringRepos/EnglishStringRepo";
 import { HebrewStringsRepo } from "./stringRepos/HebrewStringsRepo";
 
-enum Languages {
+export enum Languages {
     English,
     Hebrew
 }

@@ -39,7 +39,7 @@ class FormSection {
 
     public addField = (
         name: string,
-        placeholder: string,
+        placeholder: () => string,
         fieldType: FormFieldType,
         required: boolean = false
     ) => {
@@ -64,13 +64,13 @@ class FormField {
     private static _phoneValidator = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/;
 
     private _name: string;
-    private _placeholder: string;
+    private _placeholder: () => string;
     private _fieldType: FormFieldType;
     private _required: boolean;
     private _value: FormFieldValueType;
 
     constructor(name: string,
-        placeholder: string,
+        placeholder: () => string,
         fieldType: FormFieldType,
         required: boolean = false) {
 
@@ -120,42 +120,46 @@ class FormField {
     }
 
     get validationErrorMessage() {
-        if (!this.isValid) {
+        // if (!this.isValid) {
 
-            if (this._required && !this.value) {
-                return ;
-            }
-            switch (this._fieldType) {
-                case (FormFieldType.Text): {
-                    if (this._value && typeof (this._value) === "string" &&
-                        this._value.length >= 1) {
-                        return true;
-                    }
-                }
-                case (FormFieldType.Email): {
-                    if (this._value && typeof (this._value) === "string" &&
-                        FormField._emailValidator.test(this._value)) {
-                        return true;
-                    }
-                }
-                case (FormFieldType.Phone): {
-                    if (this._value && typeof (this._value) === "string" &&
-                        FormField._phoneValidator.test(this._value)) {
-                        return true;
-                    }
-                }
-                case (FormFieldType.Checkbox): {
-                    if (typeof (this._value) === "boolean") {
-                        return true;
-                    }
-                }
-            }
+        //     if (this._required && !this.value) {
+        //         return ;
+        //     }
+        //     switch (this._fieldType) {
+        //         case (FormFieldType.Text): {
+        //             if (this._value && typeof (this._value) === "string" &&
+        //                 this._value.length >= 1) {
+        //                 return true;
+        //             }
+        //         }
+        //         case (FormFieldType.Email): {
+        //             if (this._value && typeof (this._value) === "string" &&
+        //                 FormField._emailValidator.test(this._value)) {
+        //                 return true;
+        //             }
+        //         }
+        //         case (FormFieldType.Phone): {
+        //             if (this._value && typeof (this._value) === "string" &&
+        //                 FormField._phoneValidator.test(this._value)) {
+        //                 return true;
+        //             }
+        //         }
+        //         case (FormFieldType.Checkbox): {
+        //             if (typeof (this._value) === "boolean") {
+        //                 return true;
+        //             }
+        //         }
+        //     }
 
-            return "";
-        }
+        //     return "";
+        // }
+        throw "Un implemented"
+        return ""
     }
 
     get name() { return this._name; };
+
+    get placeholder() { return this._placeholder(); };
 
     get value() { return this._value; };
     set value(newValue: FormFieldValueType) { this._value = newValue; };

@@ -7,7 +7,7 @@ export const HebrewStringsRepo: IStringsRepo = {
             contactability: "דרכי יצירת קשר",
             personal: "אישי"
         },
-        fieldsPlaceholdersBySections: {
+        placeholdersBySections: {
             personal: {
                 firstName: "שם פרטי",
                 lastName: "שם משפחה",
