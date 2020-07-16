@@ -8,12 +8,12 @@ export enum FormFieldType {
     Checkbox
 }
 
-export class ObservableForm {
+export class ObservableFormStore {
 
     @observable public sections: ObservableFormSection[] = [];
 
-    public addSection = (name: string) => {
-        const newSection = new ObservableFormSection(name);
+    public addSection = (placeholderStringName: keyof IStringsRepo) => {
+        const newSection = new ObservableFormSection(placeholderStringName);
         this.sections.push(newSection);
         return newSection;
     }
@@ -21,12 +21,10 @@ export class ObservableForm {
     @computed get getValues() { return this.sections.map(section => section.getValues).flat(); };
 }
 
-class ObservableFormSection {
-    private _name: string;
+export class ObservableFormSection {
     @observable fields: ObservableFormField[] = [];
 
-    constructor(name: string) {
-        this._name = name;
+    constructor(public placeholderStringName: keyof IStringsRepo) {
     }
 
     public addField = (
@@ -52,7 +50,7 @@ class ObservableFormSection {
 
 type FormFieldValueType = string | boolean;
 
-class ObservableFormField {
+export class ObservableFormField {
 
     private static _emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     private static _phoneValidator = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/;
@@ -148,7 +146,6 @@ class ObservableFormField {
         //     return "";
         // }
         throw "Un implemented"
-        return ""
     }
 
     get name() { return this._name; };

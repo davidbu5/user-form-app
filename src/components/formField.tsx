@@ -1,9 +1,13 @@
 import React from 'react';
+import { observer } from 'mobx-react';
+import { ObservableFormField } from '../common/stores/FormStore';
+import { ObservedLanguageStore } from '../common/stores/LanguageStore';
 
-export interface HelloProps { compiler: string; framework: string; }
+export interface FormFieldProps { field: ObservableFormField, langStore: ObservedLanguageStore }
 
-export class FormField extends React.Component<HelloProps, {}> {
+@observer
+export class FormField extends React.Component<FormFieldProps> {
     render() {
-        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+        return <h3>{this.props.langStore.getString(this.props.field.placeholderStringName)}</h3>;
     }
 }
