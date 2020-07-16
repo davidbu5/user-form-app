@@ -1,12 +1,5 @@
-import { threadId } from "worker_threads";
-import { LanguageModule } from "./LanguageModule";
-
-export class FormFactory {
-
-    public static create() {
-        return new Form();
-    }
-}
+import { IStringsRepo } from "../interfaces/IStringsRepo";
+import { observable, computed } from 'mobx';
 
 export enum FormFieldType {
     Text,
@@ -15,23 +8,22 @@ export enum FormFieldType {
     Checkbox
 }
 
-class Form {
+export class ObservableForm {
 
-    private _sections: FormSection[] = [];
+    @observable public sections: ObservableFormSection[] = [];
 
     public addSection = (name: string) => {
-        const newSection = new FormSection(name);
-        this._sections.push(newSection);
+        const newSection = new ObservableFormSection(name);
+        this.sections.push(newSection);
         return newSection;
     }
-    get isValid() { return this._sections.every(section => section.isValid); }
-    public getValues = () => this._sections.map(section => section.getValues()).flat();
-    get sections() { return this._sections; }
+    @computed get isValid() { return this.sections.every(section => section.isValid); }
+    @computed get getValues() { return this.sections.map(section => section.getValues).flat(); };
 }
 
-class FormSection {
+class ObservableFormSection {
     private _name: string;
-    private _fields: FormField[] = [];
+    @observable fields: ObservableFormField[] = [];
 
     constructor(name: string) {
         this._name = name;
@@ -39,50 +31,52 @@ class FormSection {
 
     public addField = (
         name: string,
-        placeholder: () => string,
+        placeholder: keyof IStringsRepo,
         fieldType: FormFieldType,
         required: boolean = false
     ) => {
-        const newField = new FormField(name, placeholder, fieldType, required);
-        this._fields.push(newField);
+        const newField = new ObservableFormField(name, placeholder, fieldType, required);
+        this.fields.push(newField);
         return newField;
     }
-    get isValid() { return this._fields.every(field => field.isValid); }
-    public getValues = () => this._fields.map(field => {
-        const valueDictionary: { [fieldName: string]: FormFieldValueType } = {};
-        valueDictionary[field.name] = field.value;
-        return valueDictionary;
-    })
-    get fields() { return this._fields; }
+
+    @computed get isValid() { return this.fields.every(field => field.isValid); }
+    @computed get getValues() {
+        return this.fields.map(field => {
+            const valueDictionary: { [fieldName: string]: FormFieldValueType } = {};
+            valueDictionary[field.name] = field.value;
+            return valueDictionary;
+        })
+    }
 }
 
 type FormFieldValueType = string | boolean;
 
-class FormField {
+class ObservableFormField {
 
     private static _emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     private static _phoneValidator = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/;
 
     private _name: string;
-    private _placeholder: () => string;
+    private _placeholderStringName: keyof IStringsRepo;
     private _fieldType: FormFieldType;
     private _required: boolean;
-    private _value: FormFieldValueType;
+    @observable value: FormFieldValueType;
 
     constructor(name: string,
-        placeholder: () => string,
+        placeholderStringName: keyof IStringsRepo,
         fieldType: FormFieldType,
         required: boolean = false) {
 
         this._name = name;
-        this._placeholder = placeholder;
+        this._placeholderStringName = placeholderStringName;
         this._fieldType = fieldType;
         this._required = required;
 
         if (this._fieldType === FormFieldType.Checkbox) {
-            this._value = false;
+            this.value = false;
         } else {
-            this._value = "";
+            this.value = "";
         }
     }
 
@@ -92,30 +86,30 @@ class FormField {
         }
         switch (this._fieldType) {
             case (FormFieldType.Text): {
-                if (this._value && typeof (this._value) === "string" &&
-                    this._value.length >= 1) {
+                if (this.value && typeof (this.value) === "string" &&
+                    this.value.length >= 1) {
                     return true;
                 }
             }
             case (FormFieldType.Email): {
-                if (this._value && typeof (this._value) === "string" &&
-                    FormField._emailValidator.test(this._value)) {
+                if (this.value && typeof (this.value) === "string" &&
+                    ObservableFormField._emailValidator.test(this.value)) {
                     return true;
                 }
             }
             case (FormFieldType.Phone): {
-                if (this._value && typeof (this._value) === "string" &&
-                    FormField._phoneValidator.test(this._value)) {
+                if (this.value && typeof (this.value) === "string" &&
+                    ObservableFormField._phoneValidator.test(this.value)) {
                     return true;
                 }
             }
             case (FormFieldType.Checkbox): {
-                if (typeof (this._value) === "boolean") {
+                if (typeof (this.value) === "boolean") {
                     return true;
                 }
             }
 
-            return false;
+                return false;
         }
     }
 
@@ -127,25 +121,25 @@ class FormField {
         //     }
         //     switch (this._fieldType) {
         //         case (FormFieldType.Text): {
-        //             if (this._value && typeof (this._value) === "string" &&
-        //                 this._value.length >= 1) {
+        //             if (this.value && typeof (this.value) === "string" &&
+        //                 this.value.length >= 1) {
         //                 return true;
         //             }
         //         }
         //         case (FormFieldType.Email): {
-        //             if (this._value && typeof (this._value) === "string" &&
-        //                 FormField._emailValidator.test(this._value)) {
+        //             if (this.value && typeof (this.value) === "string" &&
+        //                 FormField._emailValidator.test(this.value)) {
         //                 return true;
         //             }
         //         }
         //         case (FormFieldType.Phone): {
-        //             if (this._value && typeof (this._value) === "string" &&
-        //                 FormField._phoneValidator.test(this._value)) {
+        //             if (this.value && typeof (this.value) === "string" &&
+        //                 FormField._phoneValidator.test(this.value)) {
         //                 return true;
         //             }
         //         }
         //         case (FormFieldType.Checkbox): {
-        //             if (typeof (this._value) === "boolean") {
+        //             if (typeof (this.value) === "boolean") {
         //                 return true;
         //             }
         //         }
@@ -159,8 +153,5 @@ class FormField {
 
     get name() { return this._name; };
 
-    get placeholder() { return this._placeholder(); };
-
-    get value() { return this._value; };
-    set value(newValue: FormFieldValueType) { this._value = newValue; };
+    @computed get placeholderStringName() { return this._placeholderStringName; };
 }

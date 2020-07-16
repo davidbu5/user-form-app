@@ -1,35 +1,21 @@
 export interface IStringsRepo {
-    form: {
-        sectionNames: {
-            personal: string;
-            address: string;
-            contactability: string;
-        },
-        placeholdersBySections: {
-            personal: {
-                firstName: string;
-                lastName: string;
-                title: string;
-            };
-            address: {
-                country: string;
-                city: string;
-                street: string;
-            };
-            contactability: {
-                email: string;
-                phone: string;
-                optin: string;
-            };
-        }
-        errorMessage: {
-            requiredEmpty: string;
-            invalidEmail: string;
-            invalidPhone: string;
-        };
-        back: string;
-        next: string;
-        submit: string;
-        successMessage: string;
-    };
+    personal: string;
+    address: string;
+    contactability: string;
+    firstName: string;
+    lastName: string;
+    title: string;
+    country: string;
+    city: string;
+    street: string;
+    email: string;
+    phone: string;
+    optin: string;
+    errorMessageRequiredEmpty: string;
+    errorMessageInvalidEmail: string;
+    errorMessageInvalidPhone: string;
+    back: string;
+    next: string;
+    submit: string;
+    successMessage: string;
 }
