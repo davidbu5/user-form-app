@@ -18,6 +18,6 @@ export const EnglishStringsRepo: IStringsRepo = {
     errorMessageInvalidPhone: "the phone number is invalid",
     back: "Back",
     next: "Next",
-    submit: "submit",
+    submit: "Submit",
     successMessage: "The form had been submitted successfully"
 }

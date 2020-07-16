@@ -5,7 +5,7 @@ import { HebrewStringsRepo } from '../i18/HebrewStringsRepo';
 
 export type Language = 'he' | 'en';
 
-export class ComputedLanguageStore {
+export class ObservedLanguageStore {
 
     @observable language: Language = "en";
 

@@ -1,6 +1,3 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from '../App';
 import { ObservableForm, FormFieldType } from '../common/stores/FormStore';
 
 test('form field valid name not required invalid', () => {
