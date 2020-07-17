@@ -1,5 +1,5 @@
 import React from 'react';
-import { ObservableFormStore, ObservableFormSection } from '../common/stores/FormStore';
+import { ObservableFormStore } from '../common/stores/FormStore';
 import { observer } from 'mobx-react';
 import { FormSection } from './FormSection';
 import { ObservedLanguageStore } from '../common/stores/LanguageStore';

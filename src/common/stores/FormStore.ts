@@ -1,7 +1,5 @@
 import { IStringsRepo } from "../interfaces/IStringsRepo";
 import { observable, computed } from 'mobx';
-import { LanguageSwitch } from "../../components/LagnuageSwitch";
-import { ObservedLanguageStore } from "./LanguageStore";
 
 export enum FormFieldType {
     Text,
@@ -60,7 +58,7 @@ export type FormFieldValueType = string | boolean;
 
 export class ObservableFormField {
 
-    private static _emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    private static _emailValidator = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     private static _phoneValidator = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/;
 
     private _name: string;
@@ -85,7 +83,7 @@ export class ObservableFormField {
             if (valuesList) {
                 this.valuesList = valuesList;
             } else {
-                throw "List form field should get values list"
+                throw new Error("List form field should get values list");
             }
         }
 

@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
 import { IStringsRepo } from '../interfaces/IStringsRepo';
 import { EnglishStringsRepo } from '../i18/en';
 import { HebrewStringsRepo } from '../i18/he';

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { observer } from 'mobx-react';
 import { ObservableFormField } from '../common/stores/FormStore';
 import { ObservedLanguageStore } from '../common/stores/LanguageStore';

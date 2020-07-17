@@ -36,8 +36,6 @@ class App extends React.Component<{}, IAppState> {
   }
 
   render() {
-    let elementToReturn;
-
     if (this.state.formStore) {
       return <Form store={this.state.formStore} langStore={langStore}></Form>;
     } else if (this.state.loadingCountries) {
