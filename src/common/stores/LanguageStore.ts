@@ -9,7 +9,10 @@ export class ObservedLanguageStore {
 
     @observable language: Language = "en";
 
-    getString(stringName: keyof IStringsRepo) {
+    getString(stringName: keyof IStringsRepo | null) {
+        if (!stringName) {
+            return "";
+        }
         switch (this.language) {
             case "en": {
                 return EnglishStringsRepo[stringName];

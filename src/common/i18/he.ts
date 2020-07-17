@@ -16,6 +16,7 @@ export const HebrewStringsRepo: IStringsRepo = {
     errorMessageRequiredEmpty: "השדה הינו שדה נדרש ולכן אינו יכול להיות ריק",
     errorMessageInvalidEmail: "כתובת  האימייל שהוזנה אינה תקינה",
     errorMessageInvalidPhone: "מספר הטלפון שהוזן אינו תקין",
+    errorMessageItemNotFromList: "הפריט שהוזן אינו מהרשימה",
     back: "אחורה",
     next: "קדימה",
     submit: "שליחה",

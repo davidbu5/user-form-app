@@ -5,9 +5,16 @@ import { ObservedLanguageStore } from '../common/stores/LanguageStore';
 import { FormFieldType } from '../common/stores/FormStore'
 
 export interface FormFieldProps { field: ObservableFormField, langStore: ObservedLanguageStore }
+export interface FormFieldState { touched: boolean }
 
 @observer
-export class FormField extends React.Component<FormFieldProps> {
+export class FormField extends React.Component<FormFieldProps, FormFieldState> {
+
+    constructor(props: FormFieldProps) {
+        super(props);
+
+        this.state = { touched: false };
+    }
 
     getFieldPlaceholder() {
         return this.props.langStore.getString(this.props.field.placeholderStringName);
@@ -20,6 +27,10 @@ export class FormField extends React.Component<FormFieldProps> {
         else {
             this.props.field.value = event.target.value;
         }
+    }
+
+    onFocus = () => {
+        this.setState({ touched: true });
     }
 
     getInput() {
@@ -40,14 +51,14 @@ export class FormField extends React.Component<FormFieldProps> {
                 return this.getListInput();
             }
         }
-        return this.getTextInput();
     }
 
     getTextInput() {
         return (<>
             <input id={this.props.field.name} type="text"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
-                value={this.props.field.value as string} />
+                value={this.props.field.value as string}
+                onFocus={this.onFocus} />
         </>);
     }
 
@@ -55,7 +66,8 @@ export class FormField extends React.Component<FormFieldProps> {
         return (<>
             <input id={this.props.field.name} type="tel"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
-                value={this.props.field.value as string} />
+                value={this.props.field.value as string}
+                onFocus={this.onFocus} />
         </>);
     }
 
@@ -63,7 +75,8 @@ export class FormField extends React.Component<FormFieldProps> {
         return (<>
             <input id={this.props.field.name} type="email"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
-                value={this.props.field.value as string} />
+                value={this.props.field.value as string}
+                onFocus={this.onFocus} />
         </>);
     }
 
@@ -71,14 +84,17 @@ export class FormField extends React.Component<FormFieldProps> {
         return (<>
             <label htmlFor={this.props.field.name}>{this.getFieldPlaceholder()}</label>
             <input id={this.props.field.name} type="checkbox"
-                onChange={this.onInputChange} checked={this.props.field.value as boolean} />
+                onChange={this.onInputChange} checked={this.props.field.value as boolean}
+                onFocus={this.onFocus} />
         </>);
     }
 
     getListInput() {
         return (<>
             <input id={this.props.field.name} list={this.props.field.name + "_list"}
-                onChange={this.onInputChange} value={this.props.field.value as string} />
+                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange} 
+                value={this.props.field.value as string}
+                onFocus={this.onFocus} />
 
             <datalist id={this.props.field.name + "_list"}>
                 {(this.props.field.valuesList as string[]).map(value => <option value={value} key={value} />)}
@@ -87,6 +103,13 @@ export class FormField extends React.Component<FormFieldProps> {
     }
 
     render() {
-        return (<h3>{this.getInput()}</h3>);
+        return (<div>
+            {this.getInput()}
+            {
+                !this.props.field.isValid && this.state.touched ?
+                    <div>{this.props.langStore.getString(this.props.field.validationErrorMessageStringName)}</div> :
+                    ""
+            }
+        </div>);
     }
 }

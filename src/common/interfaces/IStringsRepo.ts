@@ -14,6 +14,7 @@ export interface IStringsRepo {
     errorMessageRequiredEmpty: string;
     errorMessageInvalidEmail: string;
     errorMessageInvalidPhone: string;
+    errorMessageItemNotFromList: string;
     back: string;
     next: string;
     submit: string;

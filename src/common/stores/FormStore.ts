@@ -1,5 +1,7 @@
 import { IStringsRepo } from "../interfaces/IStringsRepo";
 import { observable, computed } from 'mobx';
+import { LanguageSwitch } from "../../components/LagnuageSwitch";
+import { ObservedLanguageStore } from "./LanguageStore";
 
 export enum FormFieldType {
     Text,
@@ -94,7 +96,7 @@ export class ObservableFormField {
         }
     }
 
-    get isValid() {
+    @computed get isValid() {
         if (this._required && !this.value) {
             return false;
         }
@@ -132,41 +134,36 @@ export class ObservableFormField {
         return true;
     }
 
-    get validationErrorMessage() {
-        // if (!this.isValid) {
+    @computed get validationErrorMessageStringName(): keyof IStringsRepo | null {
+        if (this._required && !this.value) {
+            return "errorMessageRequiredEmpty";
+        }
 
-        //     if (this._required && !this.value) {
-        //         return ;
-        //     }
-        //     switch (this._fieldType) {
-        //         case (FormFieldType.Text): {
-        //             if (this.value && typeof (this.value) === "string" &&
-        //                 this.value.length >= 1) {
-        //                 return true;
-        //             }
-        //         }
-        //         case (FormFieldType.Email): {
-        //             if (this.value && typeof (this.value) === "string" &&
-        //                 FormField._emailValidator.test(this.value)) {
-        //                 return true;
-        //             }
-        //         }
-        //         case (FormFieldType.Phone): {
-        //             if (this.value && typeof (this.value) === "string" &&
-        //                 FormField._phoneValidator.test(this.value)) {
-        //                 return true;
-        //             }
-        //         }
-        //         case (FormFieldType.Checkbox): {
-        //             if (typeof (this.value) === "boolean") {
-        //                 return true;
-        //             }
-        //         }
-        //     }
+        switch (this.fieldType) {
+            case (FormFieldType.Email): {
+                if (this.value && typeof (this.value) === "string" &&
+                    !ObservableFormField._emailValidator.test(this.value)) {
+                    return "errorMessageInvalidEmail";
+                }
+                break;
+            }
+            case (FormFieldType.Phone): {
+                if (this.value && typeof (this.value) === "string" &&
+                    !ObservableFormField._phoneValidator.test(this.value)) {
+                    return "errorMessageInvalidPhone";
+                }
+                break;
+            }
+            case (FormFieldType.List): {
+                if (this.value && typeof (this.value) === "string" &&
+                    (this.valuesList as string[]).indexOf(this.value) < 0) {
+                    return "errorMessageItemNotFromList";
+                }
+                break;
+            }
+        }
 
-        //     return "";
-        // }
-        throw "Un implemented"
+        return null;
     }
 
     get name() { return this._name; };
