@@ -19,5 +19,6 @@ export const HebrewStringsRepo: IStringsRepo = {
     back: "אחורה",
     next: "קדימה",
     submit: "שליחה",
-    successMessage: "הטופס התקבל בהצלחה"
+    successMessage: "הטופס התקבל בהצלחה",
+    loadingForm: "טוען את הטופס..."
 }

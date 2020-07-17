@@ -19,5 +19,6 @@ export const EnglishStringsRepo: IStringsRepo = {
     back: "Back",
     next: "Next",
     submit: "Submit",
-    successMessage: "The form had been submitted successfully"
+    successMessage: "The form had been submitted successfully",
+    loadingForm: "Loading form..."
 }
