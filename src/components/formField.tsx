@@ -45,34 +45,42 @@ export class FormField extends React.Component<FormFieldProps> {
 
     getTextInput() {
         return (<>
-            <input id={this.props.field.name} type="text" placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange} />
+            <input id={this.props.field.name} type="text"
+                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
+                value={this.props.field.value as string} />
         </>);
     }
 
     getPhoneInput() {
         return (<>
-            <input id={this.props.field.name} type="tel" placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange} />
+            <input id={this.props.field.name} type="tel"
+                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
+                value={this.props.field.value as string} />
         </>);
     }
 
     getEmailInput() {
         return (<>
-            <input id={this.props.field.name} type="email" placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange} />
+            <input id={this.props.field.name} type="email"
+                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
+                value={this.props.field.value as string} />
         </>);
     }
 
     getCheckboxInput() {
         return (<>
             <label htmlFor={this.props.field.name}>{this.getFieldPlaceholder()}</label>
-            <input id={this.props.field.name} type="checkbox" onChange={this.onInputChange} />
+            <input id={this.props.field.name} type="checkbox"
+                onChange={this.onInputChange} checked={this.props.field.value as boolean} />
         </>);
     }
 
     getListInput() {
         return (<>
-            <input id={this.props.field.name} list={this.props.field.name+"_list"} onChange={this.onInputChange} />
+            <input id={this.props.field.name} list={this.props.field.name + "_list"}
+                onChange={this.onInputChange} value={this.props.field.value as string} />
 
-            <datalist id={this.props.field.name+"_list"}>
+            <datalist id={this.props.field.name + "_list"}>
                 {(this.props.field.valuesList as string[]).map(value => <option value={value} key={value} />)}
             </datalist>
         </>);

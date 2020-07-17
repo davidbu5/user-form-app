@@ -38,7 +38,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
     }
 
     onSubmit = () => {
-
+        console.log(this.props.store.getValues);
+        
     }
 
     render() {
