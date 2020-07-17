@@ -1,13 +1,33 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { ObservableFormField } from '../common/stores/FormStore';
+import { ObservableFormSection } from '../common/stores/FormStore';
 import { ObservedLanguageStore } from '../common/stores/LanguageStore';
 
-export interface FormProcessBarProps { field: ObservableFormField, langStore: ObservedLanguageStore }
+export interface IFormProcessBarProps { langStore: ObservedLanguageStore, sections: ObservableFormSection[], currSectionIndex: number }
 
 @observer
-export class FormProcessBar extends React.Component<FormProcessBarProps> {
+export class FormProcessBar extends React.Component<IFormProcessBarProps> {
+
+    getBadgeForSection(section: ObservableFormSection, index: number) {
+        return <span>
+            <span>{index + 1} </span>
+            <span>{this.props.langStore.getString(section.placeholderStringName)}</span>
+        </span>;
+    }
+
     render() {
-        return <h3>{this.props.langStore.getString(this.props.field.placeholderStringName)}</h3>;
+        return <div>{
+            this.props.sections.map((section, index) =>
+                <>
+                    {index === this.props.currSectionIndex ?
+                        <b>{this.getBadgeForSection(section, index)}</b> :
+                        this.getBadgeForSection(section, index)
+                    }
+                    {
+                        index < this.props.sections.length - 1 ? <span> - </span> : ""
+                    }
+                </>
+            )
+        }</div>;
     }
 }

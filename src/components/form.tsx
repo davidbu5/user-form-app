@@ -5,6 +5,7 @@ import { FormSection } from './FormSection';
 import { ObservedLanguageStore } from '../common/stores/LanguageStore';
 import { Button } from './Button';
 import { LanguageSwitch } from './LagnuageSwitch';
+import { FormProcessBar } from './FormProcessBar';
 
 export interface IFormProps { store: ObservableFormStore, langStore: ObservedLanguageStore }
 export interface IFormState { currSectionIndex: number }
@@ -39,7 +40,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
     onSubmit = () => {
         console.log(this.props.store.getValues);
-        
     }
 
     render() {
@@ -47,6 +47,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
             return <div>{this.props.langStore.getString("loadingForm")}</div>
         }
         return <div>
+            <FormProcessBar langStore={this.props.langStore} sections={this.props.store.sections} currSectionIndex={this.state.currSectionIndex} />
             {this.getCurrSectionComponent()}
             {
                 this.state.currSectionIndex > 0 ?

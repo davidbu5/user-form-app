@@ -10,7 +10,6 @@ export interface FormSectionProps { section: ObservableFormSection, langStore: O
 export class FormSection extends React.Component<FormSectionProps> {
     render() {
         return <div>
-            <h1>{this.props.langStore.getString(this.props.section.placeholderStringName)}</h1>
             {this.props.section.fields.map(field => <FormField field={field} langStore={this.props.langStore} key={field.name} />)}
         </div>;
     }
