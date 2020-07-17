@@ -18,7 +18,7 @@ export class FormProcessBar extends React.Component<IFormProcessBarProps> {
     render() {
         return <div>{
             this.props.sections.map((section, index) =>
-                <>
+                <span key={index}>
                     {index === this.props.currSectionIndex ?
                         <b>{this.getBadgeForSection(section, index)}</b> :
                         this.getBadgeForSection(section, index)
@@ -26,7 +26,7 @@ export class FormProcessBar extends React.Component<IFormProcessBarProps> {
                     {
                         index < this.props.sections.length - 1 ? <span> - </span> : ""
                     }
-                </>
+                </span>
             )
         }</div>;
     }

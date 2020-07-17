@@ -6,6 +6,7 @@ import { ObservedLanguageStore } from '../common/stores/LanguageStore';
 import { Button } from './Button';
 import { LanguageSwitch } from './LagnuageSwitch';
 import { FormProcessBar } from './FormProcessBar';
+import { FormApi } from '../common/api/FormApi';
 
 export interface IFormProps { store: ObservableFormStore, langStore: ObservedLanguageStore }
 export interface IFormState { currSectionIndex: number }
@@ -39,13 +40,20 @@ export class Form extends React.Component<IFormProps, IFormState> {
     }
 
     onSubmit = () => {
-        console.log(this.props.store.getValues);
+        FormApi.submitForm(this.props.store.getValues).then(isSuccess => {
+            if (isSuccess) {
+                alert(this.props.langStore.getString("successMessage"));
+            } else {
+                alert(this.props.langStore.getString("failMessage"));
+            }
+        })
     }
 
     render() {
         if (!this.props.store || !this.props.store.sections || !this.props.store.sections.length) {
             return <div>{this.props.langStore.getString("loadingForm")}</div>
         }
+        const currSection = this.props.store.sections[this.state.currSectionIndex];
         return <div>
             <FormProcessBar langStore={this.props.langStore} sections={this.props.store.sections} currSectionIndex={this.state.currSectionIndex} />
             {this.getCurrSectionComponent()}
@@ -56,12 +64,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
             }
             {
                 this.state.currSectionIndex < this.props.store.sections.length - 1 ?
-                    <Button text={this.props.langStore.getString("next")} onButtonClick={this.onContinueToNextSection}></Button> :
+                    <Button text={this.props.langStore.getString("next")}
+                    onButtonClick={this.onContinueToNextSection} isDisabled={!currSection.isValid}></Button> :
                     ""
             }
             {
                 this.state.currSectionIndex === this.props.store.sections.length - 1 ?
-                    <Button text={this.props.langStore.getString("submit")} onButtonClick={this.onSubmit}></Button> :
+                    <Button text={this.props.langStore.getString("submit")}
+                    onButtonClick={this.onSubmit} isDisabled={!this.props.store.isValid}></Button> :
                     ""
             }
             <LanguageSwitch langStore={this.props.langStore} />

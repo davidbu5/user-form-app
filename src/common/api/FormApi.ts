@@ -6,7 +6,7 @@ export class FormApi {
         return ["Israel", "USA", "Poland", "Morroco"];
     }
 
-    public static async submitForm(formValues: { [key: string]: FormFieldValueType }) {
+    public static async submitForm(formValues: { [key: string]: FormFieldValueType }[]) {
         return true;
     }
 }

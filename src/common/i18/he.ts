@@ -20,5 +20,6 @@ export const HebrewStringsRepo: IStringsRepo = {
     next: "קדימה",
     submit: "שליחה",
     successMessage: "הטופס התקבל בהצלחה",
+    failMessage: "שליחת הטופס נכשלה",
     loadingForm: "טוען את הטופס..."
 }

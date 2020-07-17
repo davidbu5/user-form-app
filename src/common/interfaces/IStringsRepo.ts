@@ -18,5 +18,6 @@ export interface IStringsRepo {
     next: string;
     submit: string;
     successMessage: string;
+    failMessage: string;
     loadingForm: string;
 }
