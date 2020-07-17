@@ -1,9 +1,12 @@
 import React from 'react';
 
-export interface HelloProps { compiler: string; framework: string; }
+export interface ButtonProps {
+    text: string;
+    onButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
-export class Button extends React.Component<HelloProps, {}> {
+export class Button extends React.Component<ButtonProps, {}> {
     render() {
-        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+        return <button onClick={this.props.onButtonClick}>{this.props.text}</button>;
     }
 }

@@ -13,12 +13,12 @@ export class FormField extends React.Component<FormFieldProps> {
         return this.props.langStore.getString(this.props.field.placeholderStringName);
     }
 
-    onInputChange(event: ChangeEvent<HTMLInputElement>) {
+    onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.type === "checkbox") {
-            console.log(event.target.id, event.target.checked);
+            this.props.field.value = event.target.checked;
         }
         else {
-            console.log(event.target.id, event.target.value);
+            this.props.field.value = event.target.value;
         }
     }
 

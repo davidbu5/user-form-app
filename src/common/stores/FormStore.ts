@@ -40,7 +40,11 @@ export class ObservableFormSection {
         return newField;
     }
 
-    @computed get isValid() { return this.fields.every(field => field.isValid); }
+    @computed get isValid() {
+        return this.fields.every(field => {
+            return field.isValid;
+        })
+    }
     @computed get getValues() {
         return this.fields.map(field => {
             const valueDictionary: { [fieldName: string]: FormFieldValueType } = {};
@@ -59,7 +63,7 @@ export class ObservableFormField {
 
     private _name: string;
     private _required: boolean;
-    
+
     @observable value: FormFieldValueType;
     public placeholderStringName: keyof IStringsRepo;
     public fieldType: FormFieldType;
@@ -94,33 +98,38 @@ export class ObservableFormField {
         if (this._required && !this.value) {
             return false;
         }
+
         switch (this.fieldType) {
-            case (FormFieldType.Text): {
-                if (this.value && typeof (this.value) === "string" &&
-                    this.value.length >= 1) {
-                    return true;
-                }
-            }
             case (FormFieldType.Email): {
                 if (this.value && typeof (this.value) === "string" &&
-                    ObservableFormField._emailValidator.test(this.value)) {
-                    return true;
+                    !ObservableFormField._emailValidator.test(this.value)) {
+                    return false;
                 }
+                break;
             }
             case (FormFieldType.Phone): {
                 if (this.value && typeof (this.value) === "string" &&
-                    ObservableFormField._phoneValidator.test(this.value)) {
-                    return true;
+                    !ObservableFormField._phoneValidator.test(this.value)) {
+                    return false;
                 }
+                break;
             }
             case (FormFieldType.Checkbox): {
-                if (typeof (this.value) === "boolean") {
-                    return true;
+                if (typeof (this.value) !== "boolean") {
+                    return false;
                 }
+                break;
             }
-
-                return false;
+            case (FormFieldType.List): {
+                if (this.value && typeof (this.value) === "string" &&
+                    (this.valuesList as string[]).indexOf(this.value) < 0) {
+                    return false;
+                }
+                break;
+            }
         }
+
+        return true;
     }
 
     get validationErrorMessage() {
