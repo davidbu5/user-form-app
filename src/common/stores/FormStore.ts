@@ -5,7 +5,8 @@ export enum FormFieldType {
     Text,
     Email,
     Phone,
-    Checkbox
+    Checkbox,
+    List
 }
 
 export class ObservableFormStore {
@@ -31,9 +32,10 @@ export class ObservableFormSection {
         name: string,
         placeholder: keyof IStringsRepo,
         fieldType: FormFieldType,
-        required: boolean = false
+        required: boolean = false,
+        valuesList?: string[]
     ) => {
-        const newField = new ObservableFormField(name, placeholder, fieldType, required);
+        const newField = new ObservableFormField(name, placeholder, fieldType, required, valuesList);
         this.fields.push(newField);
         return newField;
     }
@@ -48,7 +50,7 @@ export class ObservableFormSection {
     }
 }
 
-type FormFieldValueType = string | boolean;
+export type FormFieldValueType = string | boolean;
 
 export class ObservableFormField {
 
@@ -56,22 +58,32 @@ export class ObservableFormField {
     private static _phoneValidator = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/;
 
     private _name: string;
-    private _placeholderStringName: keyof IStringsRepo;
-    private _fieldType: FormFieldType;
     private _required: boolean;
+    
     @observable value: FormFieldValueType;
+    public placeholderStringName: keyof IStringsRepo;
+    public fieldType: FormFieldType;
+    public valuesList: string[] | null = null;
 
     constructor(name: string,
         placeholderStringName: keyof IStringsRepo,
         fieldType: FormFieldType,
-        required: boolean = false) {
+        required: boolean = false,
+        valuesList?: string[]) {
 
         this._name = name;
-        this._placeholderStringName = placeholderStringName;
-        this._fieldType = fieldType;
+        this.placeholderStringName = placeholderStringName;
+        this.fieldType = fieldType;
         this._required = required;
+        if (fieldType === FormFieldType.List) {
+            if (valuesList) {
+                this.valuesList = valuesList;
+            } else {
+                throw "List form field should get values list"
+            }
+        }
 
-        if (this._fieldType === FormFieldType.Checkbox) {
+        if (this.fieldType === FormFieldType.Checkbox) {
             this.value = false;
         } else {
             this.value = "";
@@ -82,7 +94,7 @@ export class ObservableFormField {
         if (this._required && !this.value) {
             return false;
         }
-        switch (this._fieldType) {
+        switch (this.fieldType) {
             case (FormFieldType.Text): {
                 if (this.value && typeof (this.value) === "string" &&
                     this.value.length >= 1) {
@@ -149,6 +161,4 @@ export class ObservableFormField {
     }
 
     get name() { return this._name; };
-
-    @computed get placeholderStringName() { return this._placeholderStringName; };
 }

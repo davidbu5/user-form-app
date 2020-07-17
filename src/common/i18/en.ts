@@ -6,7 +6,7 @@ export const EnglishStringsRepo: IStringsRepo = {
     contactability: "Contactability",
     firstName: "First Name",
     lastName: "Last Name",
-    title: "title",
+    title: "Title",
     country: "Country",
     city: "City",
     street: "Street",
