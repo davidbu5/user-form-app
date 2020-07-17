@@ -7,7 +7,9 @@ import { ObservedLanguageStore } from './common/stores/LanguageStore';
 import { FormApi } from './common/api/FormApi';
 
 interface IAppState {
-  formStore: ObservableFormStore;
+  formStore?: ObservableFormStore | null;
+  loadingCountries?: boolean;
+  countries?: string[] | null;
 }
 
 const langStore = new ObservedLanguageStore();
@@ -18,21 +20,35 @@ class App extends React.Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
 
-    this.state = { formStore:  new ObservableFormStore() };
+    this.state = { formStore: null, loadingCountries: true };
   }
 
   componentDidMount() {
-    createRegisterFormStore().then(formStore => {
-      this.setState({ formStore })
-    });
+    FormApi.getCountriesNames().then((countries: string[]) => {
+      this.setState({ loadingCountries: false, countries })
+
+      createRegisterFormStore(countries).then(formStore => {
+        this.setState({ formStore })
+      });
+    }).catch(() => {
+      this.setState({ loadingCountries: false })
+    })
   }
 
   render() {
-    return <Form store={this.state.formStore} langStore={langStore}></Form>
+    let elementToReturn;
+
+    if (this.state.formStore) {
+      return <Form store={this.state.formStore} langStore={langStore}></Form>;
+    } else if (this.state.loadingCountries) {
+      return <div>{langStore.getString("loadingForm")}</div>
+    } else {
+      return <div>{langStore.getString("failedLoadingForm")}</div>
+    }
   }
 }
 
-async function createRegisterFormStore() {
+async function createRegisterFormStore(countries: string[]) {
   const form = new ObservableFormStore()
 
   const personalSection = form.addSection("personal");
@@ -41,7 +57,7 @@ async function createRegisterFormStore() {
   personalSection.addField("title", "title", FormFieldType.Text);
 
   const addressSection = form.addSection("address");
-  addressSection.addField("country", "country", FormFieldType.List, true, await FormApi.getCountriesNames());
+  addressSection.addField("country", "country", FormFieldType.List, true, countries);
   addressSection.addField("city", "city", FormFieldType.Text);
   addressSection.addField("street", "street", FormFieldType.Text);
 

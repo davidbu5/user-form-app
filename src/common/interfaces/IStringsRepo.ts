@@ -21,4 +21,5 @@ export interface IStringsRepo {
     successMessage: string;
     failMessage: string;
     loadingForm: string;
+    failedLoadingForm: string;
 }

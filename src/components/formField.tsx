@@ -82,10 +82,10 @@ export class FormField extends React.Component<FormFieldProps, FormFieldState> {
 
     getCheckboxInput() {
         return (<>
-            <label htmlFor={this.props.field.name}>{this.getFieldPlaceholder()}</label>
             <input id={this.props.field.name} type="checkbox"
                 onChange={this.onInputChange} checked={this.props.field.value as boolean}
                 onFocus={this.onFocus} />
+            <label htmlFor={this.props.field.name}>{this.getFieldPlaceholder()}</label>
         </>);
     }
 

@@ -41,6 +41,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
     onSubmit = () => {
         FormApi.submitForm(this.props.store.getValues).then(isSuccess => {
+            console.log(isSuccess);
+            
             if (isSuccess) {
                 alert(this.props.langStore.getString("successMessage"));
             } else {
@@ -50,9 +52,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
     }
 
     render() {
-        if (!this.props.store || !this.props.store.sections || !this.props.store.sections.length) {
-            return <div>{this.props.langStore.getString("loadingForm")}</div>
-        }
         const currSection = this.props.store.sections[this.state.currSectionIndex];
         return <div>
             <FormProcessBar langStore={this.props.langStore} sections={this.props.store.sections} currSectionIndex={this.state.currSectionIndex} />
