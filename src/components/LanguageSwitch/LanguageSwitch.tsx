@@ -1,3 +1,4 @@
+import "./LanguageSwitch.less"
 import React from 'react';
 import { observer } from 'mobx-react';
 import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
@@ -9,7 +10,7 @@ export interface ILanguageSwitchProps { langStore: ObservedLanguageStore }
 export class LanguageSwitch extends React.Component<ILanguageSwitchProps> {
 
     render() {
-        return <div>
+        return <div className="language-switch-container">
             <Button text="Switch to English" onButtonClick={()=>this.props.langStore.language = "en"}></Button>
             <Button text="החלף שפה לעברית" onButtonClick={()=>this.props.langStore.language = "he"}></Button>
         </div>;

@@ -1,3 +1,4 @@
+import "./FormProcessBar.less";
 import React from 'react';
 import { observer } from 'mobx-react';
 import { ObservableFormSection } from '../../common/stores/FormStore';

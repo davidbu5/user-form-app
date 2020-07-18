@@ -1,3 +1,4 @@
+import "./Modal.less";
 import React from 'react';
 import { observer } from 'mobx-react';
 import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
@@ -10,7 +11,7 @@ export interface IModalProps { langStore: ObservedLanguageStore, modalStore: Obs
 export class Modal extends React.Component<IModalProps> {
 
     render() {
-        return <div>
+        return <div className="modal-container">
             <div>{this.props.langStore.getString(this.props.modalStore.modalTextStringName)}</div>
             <Button text={this.props.langStore.getString("close")} onButtonClick={()=>this.props.modalStore.close()}></Button>
         </div>;
