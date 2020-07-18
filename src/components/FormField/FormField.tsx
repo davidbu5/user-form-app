@@ -1,3 +1,4 @@
+import "./FormField.less";
 import React, { ChangeEvent } from 'react';
 import { observer } from 'mobx-react';
 import { ObservableFormField } from '../../common/stores/FormStore';
@@ -58,7 +59,8 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="text"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus} />
+                onFocus={this.onFocus}
+                data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
 
@@ -67,7 +69,8 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="tel"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus} />
+                onFocus={this.onFocus}
+                data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
 
@@ -76,7 +79,8 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="email"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus} />
+                onFocus={this.onFocus}
+                data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
 
@@ -92,9 +96,10 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
     getListInput() {
         return (<>
             <input id={this.props.field.name} list={this.props.field.name + "_list"}
-                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange} 
+                placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus} />
+                onFocus={this.onFocus}
+                data-invalid={!this.props.field.isValid && this.state.touched} />
 
             <datalist id={this.props.field.name + "_list"}>
                 {(this.props.field.valuesList as string[]).map(value => <option value={value} key={value} />)}
@@ -107,7 +112,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             {this.getInput()}
             {
                 !this.props.field.isValid && this.state.touched ?
-                    <div>{this.props.langStore.getString(this.props.field.validationErrorMessageStringName)}</div> :
+                    <div className="input-error-message">{this.props.langStore.getString(this.props.field.validationErrorMessageStringName)}</div> :
                     ""
             }
         </div>);

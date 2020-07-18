@@ -1,3 +1,6 @@
+@button-color: #0075ff;
+@button-hover-color: darken(@button-color, 18%);
+@button-disabled-color: #d1d1d1;
 
 button {
     border-radius: 5px;
@@ -6,6 +9,16 @@ button {
     border: none;
     min-width: 10%;
     color: white;
-    background-color: rgb(52, 52, 216);
+    background-color: @button-color;
     box-shadow: rgba(83, 83, 83, 0.582) 0px 1px 1px 1px;
+    outline: none;
+}
+
+button:hover,
+button:focus {
+    background-color: @button-hover-color;
+}
+
+button[disabled] {
+    background-color: @button-disabled-color;
 }

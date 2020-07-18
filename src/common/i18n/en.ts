@@ -14,7 +14,7 @@ export const EnglishStringsRepo: IStringsRepo = {
     phone: "Phone",
     optin: "I approve receiving info from the company",
     errorMessageRequiredEmpty: "This field is required and therefore cannot be empty",
-    errorMessageInvalidEmail: "The Email addres is invalid",
+    errorMessageInvalidEmail: "The Email address is invalid",
     errorMessageInvalidPhone: "The phone number is invalid",
     errorMessageItemNotFromList: "The input is not in the options list",
     back: "Back",
