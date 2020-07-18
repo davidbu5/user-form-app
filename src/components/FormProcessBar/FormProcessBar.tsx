@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { ObservableFormSection } from '../common/stores/FormStore';
-import { ObservedLanguageStore } from '../common/stores/LanguageStore';
+import { ObservableFormSection } from '../../common/stores/FormStore';
+import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
 
 export interface IFormProcessBarProps { langStore: ObservedLanguageStore, sections: ObservableFormSection[], currSectionIndex: number }
 

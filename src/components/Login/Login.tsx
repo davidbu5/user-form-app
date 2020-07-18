@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { observer } from 'mobx-react';
-import { Button } from './Button';
-import { ObservedLanguageStore } from '../common/stores/LanguageStore';
+import { Button } from '../Button/Button';
+import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
 
 interface ILoginProps { langStore: ObservedLanguageStore, onSubmit: (userName: string, password: string) => void }
 interface ILoginState { userName: string; password: string }
@@ -37,8 +37,15 @@ export class Login extends React.Component<ILoginProps, ILoginState> {
 
     render() {
         return <div>
-            <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange} />
-            <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange} />
+            <h2>
+                {this.props.langStore.getString('login')}
+            </h2>
+            <div>
+                <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange} />
+            </div>
+            <div>
+                <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange} />
+            </div>
             <Button text={this.props.langStore.getString("submit")}
                 onButtonClick={this.onSubmit} isDisabled={this.isSubmitDisabled()}></Button>
         </div>;

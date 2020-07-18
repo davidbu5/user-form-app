@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 import { IStringsRepo } from '../interfaces/IStringsRepo';
-import { EnglishStringsRepo } from '../i18/en';
-import { HebrewStringsRepo } from '../i18/he';
+import { EnglishStringsRepo } from '../i18n/en';
+import { HebrewStringsRepo } from '../i18n/he';
 
 export type Language = 'he' | 'en';
 

@@ -28,5 +28,6 @@ export const EnglishStringsRepo: IStringsRepo = {
     password: "Password",
     authenticationFailedMessage: "Authentication failed.",
     close: "Close",
-    emptyString: ""
+    emptyString: "",
+    login: "Login"
 }

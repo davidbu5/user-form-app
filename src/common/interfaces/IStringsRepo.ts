@@ -27,4 +27,5 @@ export interface IStringsRepo {
     authenticationFailedMessage: string;
     close: string;
     emptyString: string;
+    login: string;
 }

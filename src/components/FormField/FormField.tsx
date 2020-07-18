@@ -1,16 +1,16 @@
 import React, { ChangeEvent } from 'react';
 import { observer } from 'mobx-react';
-import { ObservableFormField } from '../common/stores/FormStore';
-import { ObservedLanguageStore } from '../common/stores/LanguageStore';
-import { FormFieldType } from '../common/stores/FormStore'
+import { ObservableFormField } from '../../common/stores/FormStore';
+import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
+import { FormFieldType } from '../../common/stores/FormStore'
 
-export interface FormFieldProps { field: ObservableFormField, langStore: ObservedLanguageStore }
-export interface FormFieldState { touched: boolean }
+export interface IFormFieldProps { field: ObservableFormField, langStore: ObservedLanguageStore }
+export interface IFormFieldState { touched: boolean }
 
 @observer
-export class FormField extends React.Component<FormFieldProps, FormFieldState> {
+export class FormField extends React.Component<IFormFieldProps, IFormFieldState> {
 
-    constructor(props: FormFieldProps) {
+    constructor(props: IFormFieldProps) {
         super(props);
 
         this.state = { touched: false };

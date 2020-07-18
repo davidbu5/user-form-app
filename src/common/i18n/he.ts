@@ -28,5 +28,6 @@ export const HebrewStringsRepo: IStringsRepo = {
     password: "סיסמא",
     authenticationFailedMessage: "ההתחברות נכשלה.",
     close: "סגור",
-    emptyString: ""
+    emptyString: "",
+    login: "התחברות"
 }

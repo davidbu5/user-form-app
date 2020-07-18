@@ -1,16 +1,15 @@
 import React from 'react';
-import './App.css';
 import { ObservableFormStore, FormFieldType } from './common/stores/FormStore';
 import { observer } from 'mobx-react';
-import { Form } from './components/Form';
+import { Form } from './components/Form/Form';
 import { ObservedLanguageStore } from './common/stores/LanguageStore';
 import { FormApi } from './common/api/FormApi';
-import { ObservedAuthStore as ObservableAuthStore } from './common/stores/AuthStore';
-import { Login } from './components/Login';
-import { LanguageSwitch } from './components/LagnuageSwitch';
+import { AuthStore as ObservableAuthStore } from './common/stores/AuthStore';
+import { Login } from './components/Login/Login';
+import { LanguageSwitch } from './components/LanguageSwitch/LanguageSwitch';
 import { AuthApi } from './common/api/AuthApi';
 import { ObservedModalStore } from './common/stores/ModalStore';
-import { Modal } from './components/Modal';
+import { Modal } from './components/Modal/Modal';
 
 interface IAppState {
   formStore?: ObservableFormStore;

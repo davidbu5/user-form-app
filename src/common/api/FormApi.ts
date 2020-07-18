@@ -1,9 +1,9 @@
 import { FormFieldValueType } from "../stores/FormStore";
-import { ObservedAuthStore } from "../stores/AuthStore";
+import { AuthStore } from "../stores/AuthStore";
 
 export class FormApi {
 
-    public static async getCountriesNames(authStore: ObservedAuthStore): Promise<string[]> {
+    public static async getCountriesNames(authStore: AuthStore): Promise<string[]> {
         const headers = new Headers();
         const authHeader = authStore.getAuthorizationHeader();
         headers.append('Authorization', authHeader);
@@ -18,7 +18,7 @@ export class FormApi {
             .then(response => response.json())
     }
 
-    public static async submitForm(authStore: ObservedAuthStore, formValues: { [key: string]: FormFieldValueType }[]): Promise<boolean> {
+    public static async submitForm(authStore: AuthStore, formValues: { [key: string]: FormFieldValueType }[]): Promise<boolean> {
         const combinedFormValues = formValues.reduce((combined, value) => Object.assign(combined, value), {})
         return fetch("http://localhost:3001/user", {
             method: "post", body: JSON.stringify(combinedFormValues), headers: {

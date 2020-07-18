@@ -1,13 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { ObservedLanguageStore } from '../common/stores/LanguageStore';
-import { Button } from './Button';
-import { ObservedModalStore } from '../common/stores/ModalStore';
+import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
+import { Button } from '../Button/Button';
+import { ObservedModalStore } from '../../common/stores/ModalStore';
 
-export interface LanguageSwitchProps { langStore: ObservedLanguageStore, modalStore: ObservedModalStore }
+export interface IModalProps { langStore: ObservedLanguageStore, modalStore: ObservedModalStore }
 
 @observer
-export class Modal extends React.Component<LanguageSwitchProps> {
+export class Modal extends React.Component<IModalProps> {
 
     render() {
         return <div>

@@ -1,6 +1,5 @@
-import { computed } from 'mobx';
 
-export class ObservedAuthStore {
+export class AuthStore {
 
     private authorizationHeader = '';
 

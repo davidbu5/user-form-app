@@ -1,19 +1,18 @@
 import React from 'react';
-import { ObservableFormStore } from '../common/stores/FormStore';
+import { ObservableFormStore } from '../../common/stores/FormStore';
 import { observer } from 'mobx-react';
-import { FormSection } from './FormSection';
-import { ObservedLanguageStore } from '../common/stores/LanguageStore';
-import { Button } from './Button';
-import { LanguageSwitch } from './LagnuageSwitch';
-import { FormProcessBar } from './FormProcessBar';
-import { FormApi } from '../common/api/FormApi';
-import { ObservedAuthStore } from '../common/stores/AuthStore';
-import { ObservedModalStore } from '../common/stores/ModalStore';
+import { FormSection } from '../FormSection/FormSection';
+import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
+import { Button } from '../Button/Button';
+import { FormProcessBar } from '../FormProcessBar/FormProcessBar';
+import { FormApi } from '../../common/api/FormApi';
+import { AuthStore } from '../../common/stores/AuthStore';
+import { ObservedModalStore } from '../../common/stores/ModalStore';
 
 export interface IFormProps {
     store: ObservableFormStore,
     langStore: ObservedLanguageStore,
-    authStore: ObservedAuthStore,
+    authStore: AuthStore,
     modalStore: ObservedModalStore
 }
 export interface IFormState { currSectionIndex: number }
