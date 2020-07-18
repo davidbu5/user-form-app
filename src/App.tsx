@@ -5,14 +5,19 @@ import { observer } from 'mobx-react';
 import { Form } from './components/Form';
 import { ObservedLanguageStore } from './common/stores/LanguageStore';
 import { FormApi } from './common/api/FormApi';
+import { ObservedAuthStore as ObservableAuthStore } from './common/stores/AuthStore';
+import { Login } from './components/Login';
+import { LanguageSwitch } from './components/LagnuageSwitch';
+import { AuthApi } from './common/api/AuthApi';
 
 interface IAppState {
-  formStore?: ObservableFormStore | null;
+  formStore?: ObservableFormStore;
+  authStore?: ObservableAuthStore;
+  langStore: ObservedLanguageStore;
   loadingCountries?: boolean;
-  countries?: string[] | null;
+  authenticationFailed?: boolean;
+  countries?: string[];
 }
-
-const langStore = new ObservedLanguageStore();
 
 @observer
 class App extends React.Component<{}, IAppState> {
@@ -20,51 +25,75 @@ class App extends React.Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
 
-    this.state = { formStore: null, loadingCountries: true };
+    this.state = { authenticationFailed: false, loadingCountries: true, langStore: new ObservedLanguageStore() };
   }
 
-  componentDidMount() {
-    FormApi.getCountriesNames().then((countries: string[]) => {
-      this.setState({ loadingCountries: false, countries })
+  async createRegisterFormStore(countries: string[]) {
+    const form = new ObservableFormStore()
 
-      createRegisterFormStore(countries).then(formStore => {
-        this.setState({ formStore })
-      });
+    const personalSection = form.addSection("personal");
+    personalSection.addField("first_name", "firstName", FormFieldType.Text, true);
+    personalSection.addField("last_name", "lastName", FormFieldType.Text, true);
+    personalSection.addField("title", "title", FormFieldType.Text);
+
+    const addressSection = form.addSection("address");
+    addressSection.addField("country", "country", FormFieldType.List, true, countries);
+    addressSection.addField("city", "city", FormFieldType.Text);
+    addressSection.addField("street", "street", FormFieldType.Text);
+
+    const contactabilitySection = form.addSection("contactability");
+    contactabilitySection.addField("email", "email", FormFieldType.Email, true);
+    contactabilitySection.addField("phone", "phone", FormFieldType.Phone);
+    contactabilitySection.addField("optin", "optin", FormFieldType.Checkbox);
+
+    return form;
+  }
+
+  onLoginSubmit = (userName: string, password: string) => {
+    const authStore = new ObservableAuthStore(userName, password)
+
+    AuthApi.authenticate(authStore).then((response: boolean) => {
+      if (response !== true) {
+        throw new Error();
+      }
+      this.setState({
+        authStore, loadingCountries: true
+      }, () => {
+        FormApi.getCountriesNames(authStore).then((countries: string[]) => {
+          this.setState({ loadingCountries: false, countries })
+
+          this.createRegisterFormStore(countries).then(formStore => {
+            this.setState({ formStore })
+          });
+        }).catch(() => {
+          this.setState({ loadingCountries: false })
+        })
+      })
     }).catch(() => {
-      this.setState({ loadingCountries: false })
+      this.setState({ authenticationFailed: true })
     })
   }
 
-  render() {
-    if (this.state.formStore) {
-      return <Form store={this.state.formStore} langStore={langStore}></Form>;
+  getAppView() {
+    if (!this.state.authStore && !this.state.authenticationFailed) {
+      return <Login langStore={this.state.langStore} onSubmit={this.onLoginSubmit} />
+    } else if (this.state.authenticationFailed) {
+      return <div>{this.state.langStore.getString("authenticationFailedMessage")}</div>
+    } else if (this.state.authStore && this.state.formStore) {
+      return <Form store={this.state.formStore} langStore={this.state.langStore} authStore={this.state.authStore}></Form>;
     } else if (this.state.loadingCountries) {
-      return <div>{langStore.getString("loadingForm")}</div>
+      return <div>{this.state.langStore.getString("loadingForm")}</div>
     } else {
-      return <div>{langStore.getString("failedLoadingForm")}</div>
+      return <div>{this.state.langStore.getString("failedLoadingForm")}</div>
     }
   }
-}
 
-async function createRegisterFormStore(countries: string[]) {
-  const form = new ObservableFormStore()
-
-  const personalSection = form.addSection("personal");
-  personalSection.addField("first_name", "firstName", FormFieldType.Text, true);
-  personalSection.addField("last_name", "lastName", FormFieldType.Text, true);
-  personalSection.addField("title", "title", FormFieldType.Text);
-
-  const addressSection = form.addSection("address");
-  addressSection.addField("country", "country", FormFieldType.List, true, countries);
-  addressSection.addField("city", "city", FormFieldType.Text);
-  addressSection.addField("street", "street", FormFieldType.Text);
-
-  const contactabilitySection = form.addSection("contactability");
-  contactabilitySection.addField("email", "email", FormFieldType.Email, true);
-  contactabilitySection.addField("phone", "phone", FormFieldType.Phone);
-  contactabilitySection.addField("optin", "optin", FormFieldType.Checkbox);
-
-  return form;
+  render() {
+    return <>
+      {this.getAppView()}
+      <LanguageSwitch langStore={this.state.langStore} />
+    </>
+  }
 }
 
 

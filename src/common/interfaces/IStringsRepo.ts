@@ -22,4 +22,7 @@ export interface IStringsRepo {
     failMessage: string;
     loadingForm: string;
     failedLoadingForm: string;
+    userName: string;
+    password: string;
+    authenticationFailedMessage: string
 }

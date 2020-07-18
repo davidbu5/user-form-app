@@ -23,5 +23,8 @@ export const EnglishStringsRepo: IStringsRepo = {
     successMessage: "The form had been submitted successfully",
     failMessage: "The form submission had been failed",
     loadingForm: "Loading form...",
-    failedLoadingForm: "Form loading failed."
+    failedLoadingForm: "Form loading failed.",
+    userName: "User Name",
+    password: "Password",
+    authenticationFailedMessage: "Authentication failed."
 }

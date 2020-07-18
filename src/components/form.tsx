@@ -7,8 +7,9 @@ import { Button } from './Button';
 import { LanguageSwitch } from './LagnuageSwitch';
 import { FormProcessBar } from './FormProcessBar';
 import { FormApi } from '../common/api/FormApi';
+import { ObservedAuthStore } from '../common/stores/AuthStore';
 
-export interface IFormProps { store: ObservableFormStore, langStore: ObservedLanguageStore }
+export interface IFormProps { store: ObservableFormStore, langStore: ObservedLanguageStore, authStore: ObservedAuthStore }
 export interface IFormState { currSectionIndex: number }
 
 @observer
@@ -40,7 +41,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
     }
 
     onSubmit = () => {
-        FormApi.submitForm(this.props.store.getValues).then(isSuccess => {
+        FormApi.submitForm(this.props.authStore, this.props.store.getValues).then(isSuccess => {
             console.log(isSuccess);
             
             if (isSuccess) {
@@ -73,7 +74,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     onButtonClick={this.onSubmit} isDisabled={!this.props.store.isValid}></Button> :
                     ""
             }
-            <LanguageSwitch langStore={this.props.langStore} />
         </div>;
     }
 }
