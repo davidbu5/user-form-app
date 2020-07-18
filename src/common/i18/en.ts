@@ -26,5 +26,7 @@ export const EnglishStringsRepo: IStringsRepo = {
     failedLoadingForm: "Form loading failed.",
     userName: "User Name",
     password: "Password",
-    authenticationFailedMessage: "Authentication failed."
+    authenticationFailedMessage: "Authentication failed.",
+    close: "Close",
+    emptyString: ""
 }

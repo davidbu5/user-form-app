@@ -9,13 +9,16 @@ import { ObservedAuthStore as ObservableAuthStore } from './common/stores/AuthSt
 import { Login } from './components/Login';
 import { LanguageSwitch } from './components/LagnuageSwitch';
 import { AuthApi } from './common/api/AuthApi';
+import { ObservedModalStore } from './common/stores/ModalStore';
+import { Modal } from './components/Modal';
 
 interface IAppState {
   formStore?: ObservableFormStore;
   authStore?: ObservableAuthStore;
   langStore: ObservedLanguageStore;
+  modalStore: ObservedModalStore;
   loadingCountries?: boolean;
-  authenticationFailed?: boolean;
+  onAuthenticationFailure?: boolean;
   countries?: string[];
 }
 
@@ -25,7 +28,12 @@ class App extends React.Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
 
-    this.state = { authenticationFailed: false, loadingCountries: true, langStore: new ObservedLanguageStore() };
+    this.state = {
+      onAuthenticationFailure: false,
+      loadingCountries: true,
+      langStore: new ObservedLanguageStore(),
+      modalStore: new ObservedModalStore()
+    };
   }
 
   async createRegisterFormStore(countries: string[]) {
@@ -57,7 +65,7 @@ class App extends React.Component<{}, IAppState> {
         throw new Error();
       }
       this.setState({
-        authStore, loadingCountries: true
+        authStore, loadingCountries: true, onAuthenticationFailure: false
       }, () => {
         FormApi.getCountriesNames(authStore).then((countries: string[]) => {
           this.setState({ loadingCountries: false, countries })
@@ -70,17 +78,22 @@ class App extends React.Component<{}, IAppState> {
         })
       })
     }).catch(() => {
-      this.setState({ authenticationFailed: true })
+      this.setState({ onAuthenticationFailure: true })
     })
   }
 
   getAppView() {
-    if (!this.state.authStore && !this.state.authenticationFailed) {
-      return <Login langStore={this.state.langStore} onSubmit={this.onLoginSubmit} />
-    } else if (this.state.authenticationFailed) {
-      return <div>{this.state.langStore.getString("authenticationFailedMessage")}</div>
+    if (!this.state.authStore) {
+      return <>
+        <Login langStore={this.state.langStore} onSubmit={this.onLoginSubmit} />
+        {
+          this.state.onAuthenticationFailure ?
+            <div>{this.state.langStore.getString("authenticationFailedMessage")}</div> :
+            ""
+        }
+      </>
     } else if (this.state.authStore && this.state.formStore) {
-      return <Form store={this.state.formStore} langStore={this.state.langStore} authStore={this.state.authStore}></Form>;
+      return <Form store={this.state.formStore} langStore={this.state.langStore} authStore={this.state.authStore} modalStore={this.state.modalStore} ></Form>;
     } else if (this.state.loadingCountries) {
       return <div>{this.state.langStore.getString("loadingForm")}</div>
     } else {
@@ -92,6 +105,11 @@ class App extends React.Component<{}, IAppState> {
     return <>
       {this.getAppView()}
       <LanguageSwitch langStore={this.state.langStore} />
+      {
+        this.state.modalStore.isOpen ?
+          <Modal langStore={this.state.langStore} modalStore={this.state.modalStore} /> :
+          ""
+      }
     </>
   }
 }

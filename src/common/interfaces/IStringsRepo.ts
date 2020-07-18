@@ -24,5 +24,7 @@ export interface IStringsRepo {
     failedLoadingForm: string;
     userName: string;
     password: string;
-    authenticationFailedMessage: string
+    authenticationFailedMessage: string;
+    close: string;
+    emptyString: string;
 }

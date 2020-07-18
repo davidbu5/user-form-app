@@ -8,8 +8,14 @@ import { LanguageSwitch } from './LagnuageSwitch';
 import { FormProcessBar } from './FormProcessBar';
 import { FormApi } from '../common/api/FormApi';
 import { ObservedAuthStore } from '../common/stores/AuthStore';
+import { ObservedModalStore } from '../common/stores/ModalStore';
 
-export interface IFormProps { store: ObservableFormStore, langStore: ObservedLanguageStore, authStore: ObservedAuthStore }
+export interface IFormProps {
+    store: ObservableFormStore,
+    langStore: ObservedLanguageStore,
+    authStore: ObservedAuthStore,
+    modalStore: ObservedModalStore
+}
 export interface IFormState { currSectionIndex: number }
 
 @observer
@@ -42,12 +48,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
     onSubmit = () => {
         FormApi.submitForm(this.props.authStore, this.props.store.getValues).then(isSuccess => {
-            console.log(isSuccess);
-            
             if (isSuccess) {
-                alert(this.props.langStore.getString("successMessage"));
+                this.props.modalStore.open("successMessage");
             } else {
-                alert(this.props.langStore.getString("failMessage"));
+                this.props.modalStore.open("failMessage");
             }
         })
     }

@@ -26,5 +26,7 @@ export const HebrewStringsRepo: IStringsRepo = {
     failedLoadingForm: "טעינת הטופס נכשלה.",
     userName: "שם משתמש",
     password: "סיסמא",
-    authenticationFailedMessage: "ההתחברות נכשלה."
+    authenticationFailedMessage: "ההתחברות נכשלה.",
+    close: "סגור",
+    emptyString: ""
 }

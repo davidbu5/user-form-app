@@ -28,7 +28,6 @@ export class FormApi {
             },
         })
             .then(response => response.json())
-            .then(v => { console.log(v); return v; })
             .then(res => res === true ? true : false)
     }
 }
