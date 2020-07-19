@@ -1,9 +1,15 @@
+import "./Login.less";
 import React, { ChangeEvent } from 'react';
 import { observer } from 'mobx-react';
 import { Button } from '../Button/Button';
 import { ObservedLanguageStore } from '../../common/stores/LanguageStore';
+import { IStringsRepo } from "../../common/interfaces/IStringsRepo";
 
-interface ILoginProps { langStore: ObservedLanguageStore, onSubmit: (userName: string, password: string) => void }
+interface ILoginProps {
+    langStore: ObservedLanguageStore;
+    onSubmit: (userName: string, password: string) => void;
+    errorMessageStringName: keyof IStringsRepo;
+}
 interface ILoginState { userName: string; password: string }
 
 @observer
@@ -36,18 +42,23 @@ export class Login extends React.Component<ILoginProps, ILoginState> {
     }
 
     render() {
-        return <div>
-            <h2>
-                {this.props.langStore.getString('login')}
-            </h2>
-            <div>
-                <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange} />
-            </div>
-            <div>
-                <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange} />
-            </div>
-            <Button text={this.props.langStore.getString("submit")}
-                onButtonClick={this.onSubmit} isDisabled={this.isSubmitDisabled()}></Button>
-        </div>;
+        return <>
+            <fieldset className="login-form">
+                <legend>{this.props.langStore.getString('login')}</legend>
+                <div>
+                    <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange} />
+                </div>
+                <div>
+                    <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange} />
+                </div>
+                <Button text={this.props.langStore.getString("submit")}
+                    onButtonClick={this.onSubmit} isDisabled={this.isSubmitDisabled()}></Button>
+                {
+                    this.props.errorMessageStringName !== "emptyString" ?
+                        <div className="auth-error-message">{this.props.langStore.getString(this.props.errorMessageStringName)}</div> :
+                        ""
+                }
+            </fieldset>
+        </>;
     }
 }

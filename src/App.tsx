@@ -10,6 +10,7 @@ import { LanguageSwitch } from './components/LanguageSwitch/LanguageSwitch';
 import { AuthApi } from './common/api/AuthApi';
 import { ObservedModalStore } from './common/stores/ModalStore';
 import { Modal } from './components/Modal/Modal';
+import { IStringsRepo } from './common/interfaces/IStringsRepo';
 
 interface IAppState {
   formStore?: ObservableFormStore;
@@ -83,14 +84,8 @@ class App extends React.Component<{}, IAppState> {
 
   getAppView() {
     if (!this.state.authStore) {
-      return <>
-        <Login langStore={this.state.langStore} onSubmit={this.onLoginSubmit} />
-        {
-          this.state.onAuthenticationFailure ?
-            <div>{this.state.langStore.getString("authenticationFailedMessage")}</div> :
-            ""
-        }
-      </>
+      const errorMessageStringName: keyof IStringsRepo = this.state.onAuthenticationFailure ? "authenticationFailedMessage" : "emptyString";
+      return <Login langStore={this.state.langStore} onSubmit={this.onLoginSubmit} errorMessageStringName={errorMessageStringName} />
     } else if (this.state.authStore && this.state.formStore) {
       return <Form store={this.state.formStore} langStore={this.state.langStore} authStore={this.state.authStore} modalStore={this.state.modalStore} ></Form>;
     } else if (this.state.loadingCountries) {
