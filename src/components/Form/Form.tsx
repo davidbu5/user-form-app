@@ -54,6 +54,9 @@ export class Form extends React.Component<IFormProps, IFormState> {
                 this.props.modalStore.open("failMessage");
             }
         })
+        .catch(() => {
+            this.props.modalStore.open("failMessage");
+        })
     }
 
     render() {
