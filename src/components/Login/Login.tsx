@@ -43,16 +43,20 @@ export class Login extends React.Component<ILoginProps, ILoginState> {
 
     render() {
         return <>
-            <fieldset className="login-form">
-                <legend>{this.props.langStore.getString('login')}</legend>
+            <fieldset className="login-form container">
+                <legend className="centered-text-align">{this.props.langStore.getString('login')}</legend>
                 <div>
-                    <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange} />
+                    <input type="text" placeholder={this.getPlaceholder("userName")} onChange={this.onUserNameChange}
+                        dir={this.props.langStore.language === "he" ? "rtl" : "ltr"} />
                 </div>
                 <div>
-                    <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange} />
+                    <input type="password" placeholder={this.getPlaceholder("password")} onChange={this.onPasswordChange}
+                        dir={this.props.langStore.language === "he" ? "rtl" : "ltr"} />
                 </div>
-                <Button text={this.props.langStore.getString("submit")}
-                    onButtonClick={this.onSubmit} isDisabled={this.isSubmitDisabled()}></Button>
+                <div className="centered-text-align">
+                    <Button text={this.props.langStore.getString("submit")}
+                        onButtonClick={this.onSubmit} isDisabled={this.isSubmitDisabled()}></Button>
+                </div>
                 {
                     this.props.errorMessageStringName !== "emptyString" ?
                         <div className="auth-error-message">{this.props.langStore.getString(this.props.errorMessageStringName)}</div> :

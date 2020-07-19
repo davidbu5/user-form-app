@@ -59,7 +59,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="text"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus}
+                onFocus={this.onFocus} dir={this.props.langStore.language === "he" ? "rtl" : "ltr"}
                 data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
@@ -69,7 +69,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="tel"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus}
+                onFocus={this.onFocus} dir={this.props.langStore.language === "he" ? "rtl" : "ltr"}
                 data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
@@ -79,7 +79,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} type="email"
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus}
+                onFocus={this.onFocus} dir={this.props.langStore.language === "he" ? "rtl" : "ltr"}
                 data-invalid={!this.props.field.isValid && this.state.touched} />
         </>);
     }
@@ -88,7 +88,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
         return (<>
             <input id={this.props.field.name} type="checkbox"
                 onChange={this.onInputChange} checked={this.props.field.value as boolean}
-                onFocus={this.onFocus} />
+                onFocus={this.onFocus} dir={this.props.langStore.language === "he" ? "rtl" : "ltr"} />
             <label htmlFor={this.props.field.name}>{this.getFieldPlaceholder()}</label>
         </>);
     }
@@ -98,7 +98,7 @@ export class FormField extends React.Component<IFormFieldProps, IFormFieldState>
             <input id={this.props.field.name} list={this.props.field.name + "_list"}
                 placeholder={this.getFieldPlaceholder()} onChange={this.onInputChange}
                 value={this.props.field.value as string}
-                onFocus={this.onFocus}
+                onFocus={this.onFocus} dir={this.props.langStore.language === "he" ? "rtl" : "ltr"}
                 data-invalid={!this.props.field.isValid && this.state.touched} />
 
             <datalist id={this.props.field.name + "_list"}>

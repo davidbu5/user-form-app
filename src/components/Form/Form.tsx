@@ -1,3 +1,4 @@
+import "./Form.less";
 import React from 'react';
 import { ObservableFormStore } from '../../common/stores/FormStore';
 import { observer } from 'mobx-react';
@@ -37,12 +38,12 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
     onContinueToNextSection = () => {
         const newSectionIndex = this.state.currSectionIndex + 1;
-        this.setState({currSectionIndex: newSectionIndex})
+        this.setState({ currSectionIndex: newSectionIndex })
     }
 
     onReturnToPrevSection = () => {
         const newSectionIndex = this.state.currSectionIndex - 1;
-        this.setState({currSectionIndex: newSectionIndex})
+        this.setState({ currSectionIndex: newSectionIndex })
     }
 
     onSubmit = () => {
@@ -57,26 +58,28 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
     render() {
         const currSection = this.props.store.sections[this.state.currSectionIndex];
-        return <div>
+        return <div className="form container">
             <FormProcessBar langStore={this.props.langStore} sections={this.props.store.sections} currSectionIndex={this.state.currSectionIndex} />
             {this.getCurrSectionComponent()}
-            {
-                this.state.currSectionIndex > 0 ?
-                    <Button text={this.props.langStore.getString("back")} onButtonClick={this.onReturnToPrevSection}></Button> :
-                    ""
-            }
-            {
-                this.state.currSectionIndex < this.props.store.sections.length - 1 ?
-                    <Button text={this.props.langStore.getString("next")}
-                    onButtonClick={this.onContinueToNextSection} isDisabled={!currSection.isValid}></Button> :
-                    ""
-            }
-            {
-                this.state.currSectionIndex === this.props.store.sections.length - 1 ?
-                    <Button text={this.props.langStore.getString("submit")}
-                    onButtonClick={this.onSubmit} isDisabled={!this.props.store.isValid}></Button> :
-                    ""
-            }
+            <div className="centered-text-align">
+                {
+                    this.state.currSectionIndex > 0 ?
+                        <Button text={this.props.langStore.getString("back")} onButtonClick={this.onReturnToPrevSection}></Button> :
+                        ""
+                }
+                {
+                    this.state.currSectionIndex < this.props.store.sections.length - 1 ?
+                        <Button text={this.props.langStore.getString("next")}
+                            onButtonClick={this.onContinueToNextSection} isDisabled={!currSection.isValid}></Button> :
+                        ""
+                }
+                {
+                    this.state.currSectionIndex === this.props.store.sections.length - 1 ?
+                        <Button text={this.props.langStore.getString("submit")}
+                            onButtonClick={this.onSubmit} isDisabled={!this.props.store.isValid}></Button> :
+                        ""
+                }
+            </div>
         </div>;
     }
 }

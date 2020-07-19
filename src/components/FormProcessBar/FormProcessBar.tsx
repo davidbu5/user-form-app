@@ -9,26 +9,22 @@ export interface IFormProcessBarProps { langStore: ObservedLanguageStore, sectio
 @observer
 export class FormProcessBar extends React.Component<IFormProcessBarProps> {
 
-    getBadgeForSection(section: ObservableFormSection, index: number) {
-        return <span>
-            <span>{index + 1} </span>
-            <span>{this.props.langStore.getString(section.placeholderStringName)}</span>
+    getBadgeForSection(section: ObservableFormSection, index: number, isCurrentSection: boolean) {
+        return <span className={isCurrentSection ? "current-section" : ""}>
+            <span className="index">{index + 1} </span>
+            <div>{this.props.langStore.getString(section.placeholderStringName)}</div>
         </span>;
     }
 
     render() {
-        return <div>{
-            this.props.sections.map((section, index) =>
-                <span key={index}>
-                    {index === this.props.currSectionIndex ?
-                        <b>{this.getBadgeForSection(section, index)}</b> :
-                        this.getBadgeForSection(section, index)
-                    }
-                    {
-                        index < this.props.sections.length - 1 ? <span> - </span> : ""
-                    }
-                </span>
-            )
-        }</div>;
+        const badges = this.props.sections.map((section, index) =>
+            <div className="section-badge" key={index}>
+                {
+                    this.getBadgeForSection(section, index, index === this.props.currSectionIndex)
+                }
+            </div>
+        );
+
+        return <div className="form-process-bar">{badges}</div>;
     }
 }

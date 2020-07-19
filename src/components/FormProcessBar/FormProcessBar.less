@@ -1,0 +1,80 @@
+@import "../Button/Button.less";
+
+.form-process-bar {
+  text-align: center;
+
+  >.section-badge {
+    display      : inline-block;
+    position     : relative;
+    box-shadow   : #8a8a8a59 0px 1px 2px 1px;
+    padding      : 3px;
+    border-radius: 5px;
+    min-width    : 62px;
+
+    @media screen and (max-width: 375px) {
+
+      &:not(:first-child):not(:last-child) {
+        margin: 0 10px;
+        min-width: 0;
+      }
+
+    }
+
+    @media screen and (min-width: 375px) {
+
+      &:not(:first-child):not(:last-child) {
+        margin: 0 30px;
+      }
+    }
+
+    .index {
+      background-color: @button-disabled-color;
+      color           : white;
+      width           : 20px;
+      border-radius   : 10px;
+      display         : inline-block;
+
+      +div {
+        font-size: 8px;
+      }
+    }
+
+    .current-section .index {
+      background-color: @button-color;
+    }
+  }
+}
+
+.ltr {
+
+  @media screen and (min-width: 375px) {
+
+    .section-badge:not(:first-child)::before {
+      content   : "";
+      width     : 15px;
+      height    : 1px;
+      display   : inline-block;
+      background: #84848496;
+      position  : absolute;
+      top       : 20px;
+      left      : -22.5px;
+    }
+  }
+}
+
+.rtl {
+  
+  @media screen and (min-width: 375px) {
+
+    .section-badge:not(:last-child)::after {
+      content   : "";
+      width     : 15px;
+      height    : 1px;
+      display   : inline-block;
+      background: #84848496;
+      position  : absolute;
+      top       : 20px;
+      left      : -22.5px;
+    }
+  }
+}

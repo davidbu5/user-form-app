@@ -96,7 +96,7 @@ class App extends React.Component<{}, IAppState> {
   }
 
   render() {
-    return <>
+    return <div className={this.state.langStore.language === "he" ? "rtl" : "ltr"}>
       {this.getAppView()}
       <LanguageSwitch langStore={this.state.langStore} />
       {
@@ -104,7 +104,7 @@ class App extends React.Component<{}, IAppState> {
           <Modal langStore={this.state.langStore} modalStore={this.state.modalStore} /> :
           ""
       }
-    </>
+    </div>
   }
 }
 
