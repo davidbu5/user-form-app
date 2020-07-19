@@ -11,8 +11,16 @@ export class LanguageSwitch extends React.Component<ILanguageSwitchProps> {
 
     render() {
         return <div className="language-switch-container">
-            <Button text="Switch to English" onButtonClick={()=>this.props.langStore.language = "en"}></Button>
-            <Button text="החלף שפה לעברית" onButtonClick={()=>this.props.langStore.language = "he"}></Button>
+            {
+                this.props.langStore.language === "he" ?
+                    <Button text="Switch to English" onButtonClick={() => this.props.langStore.language = "en"}></Button> :
+                    ""
+            }
+            {
+                this.props.langStore.language === "en" ?
+                    <Button text="החלף שפה לעברית" onButtonClick={() => this.props.langStore.language = "he"}></Button> :
+                    ""
+            }
         </div>;
     }
 }
